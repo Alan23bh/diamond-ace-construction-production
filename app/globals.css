@@ -72,4 +72,14 @@ a {
   .text-balance {
     text-wrap: balance;
   }
+
+  .footer-mobile-action-clearance {
+    padding-bottom: 7rem;
+  }
+
+  @media (min-width: 768px) {
+    .footer-mobile-action-clearance {
+      padding-bottom: 4rem;
+    }
+  }
 }

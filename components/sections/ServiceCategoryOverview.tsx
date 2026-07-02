@@ -13,8 +13,8 @@ function CategoryFeature({ category }: { category: ServiceCategory }) {
   const visualSteps = ["Prep", "Paint", "Repair", "Turnover", "Finish"];
 
   return (
-    <article className="grid gap-6 lg:grid-cols-[0.92fr_1.08fr] lg:items-stretch">
-      <div className="relative min-h-[19rem] overflow-hidden border border-[var(--color-border)] bg-[var(--color-charcoal-800)] p-5">
+    <article className="grid gap-6 xl:grid-cols-[0.92fr_1.08fr] xl:items-stretch">
+      <div className="relative min-h-[24rem] overflow-hidden border border-[var(--color-border)] bg-[var(--color-charcoal-800)] p-5 sm:min-h-[20rem] sm:p-6 xl:min-h-[26rem] 2xl:min-h-[19rem]">
         <div
           aria-hidden="true"
           className="absolute inset-0 opacity-65 [background-image:linear-gradient(rgba(246,241,232,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(246,241,232,0.045)_1px,transparent_1px)] [background-size:38px_38px]"
@@ -24,22 +24,29 @@ function CategoryFeature({ category }: { category: ServiceCategory }) {
         <div aria-hidden="true" className="absolute left-[30%] top-[30%] h-px w-[42%] bg-[var(--color-brass)]" />
         <div aria-hidden="true" className="absolute left-[30%] top-[30%] h-[38%] w-px bg-[var(--color-brass)]" />
 
-        <div className="relative flex items-center justify-between gap-4">
-          <p className="text-sm font-semibold text-[var(--color-brass)]">{category.number}</p>
-          <p className="text-xs uppercase text-[var(--color-soft-beige)]">{category.visualLabel}</p>
-        </div>
+        <div className="relative flex min-h-[21.5rem] flex-col justify-between gap-8 sm:min-h-[17rem] xl:min-h-[23rem] 2xl:min-h-[16rem]">
+          <div className="flex items-start justify-between gap-5">
+            <p className="text-sm font-semibold text-[var(--color-brass)]">{category.number}</p>
+            <p className="max-w-[12rem] text-right text-xs uppercase leading-5 text-[var(--color-soft-beige)]">
+              {category.visualLabel}
+            </p>
+          </div>
 
-        <div className="absolute bottom-5 left-5 right-5">
-          <ol className="grid grid-cols-2 gap-2 sm:grid-cols-5">
+          <div aria-hidden="true" className="flex flex-1 items-center">
+            <div className="h-px w-full bg-[rgba(184,150,90,0.58)]" />
+          </div>
+
+          <ol className="grid grid-cols-1 gap-2 min-[520px]:grid-cols-2 md:grid-cols-5 xl:grid-cols-2 2xl:grid-cols-5">
             {visualSteps.map((step, index) => (
               <li
                 key={step}
-                className="border border-[rgba(246,241,232,0.12)] bg-[rgba(17,16,14,0.55)] px-3 py-3"
+                className="flex min-h-14 items-center gap-3 border border-[rgba(246,241,232,0.12)] bg-[rgba(17,16,14,0.55)] px-3 py-3"
               >
-                <span className="block text-xs font-semibold text-[var(--color-brass)]">
+                <span className="shrink-0 text-xs font-semibold text-[var(--color-brass)]">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <span className="mt-2 block text-sm font-semibold text-[var(--color-warm-white)]">
+                <span aria-hidden="true" className="h-px min-w-4 flex-1 bg-[rgba(184,150,90,0.35)]" />
+                <span className="shrink-0 text-sm font-semibold text-[var(--color-warm-white)]">
                   {step}
                 </span>
               </li>
@@ -48,7 +55,7 @@ function CategoryFeature({ category }: { category: ServiceCategory }) {
         </div>
       </div>
 
-      <div className="border-y border-[var(--color-border)] py-6 lg:flex lg:flex-col lg:justify-center lg:py-8">
+      <div className="border-y border-[var(--color-border)] py-6 xl:flex xl:flex-col xl:justify-center xl:py-8">
         <p className="text-sm font-semibold text-[var(--color-brass)]">{category.number}</p>
         <h3 className="mt-4 text-3xl font-semibold leading-tight text-[var(--color-warm-white)] sm:text-4xl">
           {category.title}

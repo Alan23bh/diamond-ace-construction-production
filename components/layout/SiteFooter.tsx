@@ -9,7 +9,7 @@ export function SiteFooter() {
 
   return (
     <footer className="border-t border-[var(--color-border)] bg-[var(--color-charcoal-900)]">
-      <Container className="py-12 md:py-16">
+      <Container className="footer-mobile-action-clearance py-12 md:py-16">
         <div className="grid gap-10 lg:grid-cols-[1.25fr_0.8fr_0.8fr_1fr]">
           <div>
             <p className="text-lg font-semibold text-[var(--color-warm-white)]">
