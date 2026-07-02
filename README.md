@@ -26,8 +26,10 @@ The project currently contains:
 - Server-side `/api/estimate` route
 - Centralized business, route, and service area data
 - Local SEO metadata helpers and LocalBusiness JSON-LD helper structure
+- WebDriverIO E2E coverage for primary navigation, service pages, the estimate form, and mobile action bar
+- GitHub Actions CI for lint, build, and E2E checks
 
-No WebDriverIO setup or image files have been added yet.
+No image files have been added.
 
 ## Development
 
@@ -60,6 +62,21 @@ WDIO_BASE_URL=http://127.0.0.1:3001 npm run test:e2e
 
 See [docs/testing.md](docs/testing.md) for coverage details and form email-safety behavior.
 
+## Continuous Integration
+
+GitHub Actions runs on pushes and pull requests targeting `main`.
+
+The CI workflow:
+
+1. Installs dependencies with `npm ci`.
+2. Runs `npm run lint`.
+3. Runs `npm run build`.
+4. Starts the local Next.js dev server on `http://127.0.0.1:3000`.
+5. Runs `npm run test:e2e` in headless Chrome.
+6. Uploads E2E failure screenshots from `tests/e2e/screenshots/` when available.
+
+The workflow does not configure Resend credentials. Contact form E2E coverage uses the same local simulation path documented in [docs/testing.md](docs/testing.md), so CI should not send real emails.
+
 ## Estimate Email Setup
 
 The estimate form works locally without Resend credentials. In development, if email environment variables are missing, `/api/estimate` simulates a successful submission and logs the structured lead payload server-side.
@@ -83,4 +100,4 @@ When configured, the API route sends a lead notification to `LEAD_RECIPIENT`, se
 
 1. Finish remaining homepage sections.
 2. Add responsive and accessibility polish pass.
-3. Add WebDriverIO E2E tests after the main flows exist.
+3. Prepare deployment and real Resend environment setup.

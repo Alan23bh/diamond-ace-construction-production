@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  quality:
+    name: Lint, Build, and E2E
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+      WDIO_BASE_URL: http://127.0.0.1:3000
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Build application
+        run: npm run build
+
+      - name: Start Next.js dev server
+        run: |
+          npm run dev -- --hostname 127.0.0.1 --port 3000 > /tmp/diamond-ace-next.log 2>&1 &
+          echo $! > /tmp/diamond-ace-next.pid
+
+      - name: Wait for local app
+        run: |
+          for attempt in {1..60}; do
+            if curl -fsS "$WDIO_BASE_URL" > /dev/null; then
+              exit 0
+            fi
+
+            sleep 2
+          done
+
+          cat /tmp/diamond-ace-next.log
+          exit 1
+
+      - name: Run WebDriverIO E2E tests
+        run: npm run test:e2e
+
+      - name: Upload E2E failure screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-failure-screenshots
+          path: tests/e2e/screenshots/
+          if-no-files-found: ignore
+
+      - name: Stop Next.js dev server
+        if: always()
+        run: |
+          if [ -f /tmp/diamond-ace-next.pid ]; then
+            kill "$(cat /tmp/diamond-ace-next.pid)" || true
+          fi
