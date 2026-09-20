@@ -1,36 +1,42 @@
+import Image from "next/image";
+import { ArrowDown, ArrowRight } from "lucide-react";
 import { servicesHero } from "../../data/services";
 import { Badge } from "../ui/Badge";
+import { Button } from "../ui/Button";
 import { Container } from "../ui/Container";
-import { SectionHeading } from "../ui/SectionHeading";
 
 export function ServicesHero() {
   return (
-    <section className="border-b border-[var(--color-border)] py-16 sm:py-20 lg:py-24">
-      <Container>
-        <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-end">
-          <div>
-            <Badge>{servicesHero.eyebrow}</Badge>
-            <SectionHeading className="mt-6" title={servicesHero.title}>
-              <p>{servicesHero.intro}</p>
-            </SectionHeading>
-          </div>
+    <section className="relative isolate min-h-[34rem] overflow-hidden bg-[var(--color-dark)] sm:min-h-[38rem] lg:min-h-[44rem]">
+      <Image
+        src={servicesHero.image}
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover object-center"
+      />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,8,7,0.84)_0%,rgba(8,8,7,0.68)_42%,rgba(8,8,7,0.28)_72%,rgba(8,8,7,0.18)_100%)]" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-black/5" />
 
-          <div className="relative min-h-[15rem] overflow-hidden border border-[var(--color-border)] bg-[var(--color-charcoal-900)] p-6">
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 opacity-60 [background-image:linear-gradient(rgba(246,241,232,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(246,241,232,0.05)_1px,transparent_1px)] [background-size:42px_42px]"
-            />
-            <div className="relative flex min-h-[12rem] flex-col justify-between">
-              <div className="flex items-center gap-3">
-                <span className="h-px w-12 bg-[var(--color-brass)]" />
-                <p className="text-xs font-semibold uppercase text-[var(--color-soft-beige)]">
-                  Service scope
-                </p>
-              </div>
-              <p className="max-w-md text-sm leading-7 text-[var(--color-warm-muted)]">
-                {servicesHero.note}
-              </p>
-            </div>
+      <Container className="relative z-10 flex min-h-[34rem] items-center py-16 sm:min-h-[38rem] sm:py-20 lg:min-h-[44rem]">
+        <div className="max-w-4xl">
+          <Badge>{servicesHero.eyebrow}</Badge>
+          <h1 className="text-balance mt-6 max-w-4xl text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-white sm:text-5xl md:text-6xl lg:text-[4.25rem]">
+            {servicesHero.title}
+          </h1>
+          <p className="mt-6 max-w-2xl text-base leading-7 text-white/90 sm:text-lg sm:leading-8">
+            {servicesHero.intro}
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <Button href="/contact" data-testid="services-estimate-cta" className="gap-2">
+              {servicesHero.primaryCta}
+              <ArrowRight aria-hidden="true" size={17} />
+            </Button>
+            <Button href="#service-details" variant="secondary" className="gap-2">
+              {servicesHero.secondaryCta}
+              <ArrowDown aria-hidden="true" size={16} />
+            </Button>
           </div>
         </div>
       </Container>

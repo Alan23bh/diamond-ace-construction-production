@@ -7,24 +7,24 @@ import { MobileNav } from "./MobileNav";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b border-[var(--color-border)] bg-[rgba(17,16,14,0.9)] backdrop-blur">
-      <Container className="relative flex min-h-20 items-center justify-between gap-4">
-        <Link href="/" className="group inline-flex flex-col">
-          <span className="text-base font-semibold text-[var(--color-warm-white)]">
-            {business.name}
+    <header className="sticky top-0 z-50 border-b border-black/10 bg-white/95 shadow-[0_8px_30px_rgba(23,23,21,0.05)] backdrop-blur-md">
+      <Container className="relative flex min-h-[4.75rem] items-center justify-between gap-5">
+        <Link href="/" className="group inline-flex items-baseline gap-2" aria-label="Diamond Ace Construction home">
+          <span className="text-lg font-extrabold tracking-[-0.04em] text-[var(--color-ink)] sm:text-xl">
+            Diamond Ace
           </span>
-          <span className="text-xs uppercase text-[var(--color-brass)]">
-            Painting & interiors
+          <span className="hidden text-[0.65rem] font-bold uppercase tracking-[0.16em] text-[var(--color-accent-dark)] min-[420px]:inline">
+            Construction
           </span>
         </Link>
 
-        <nav aria-label="Primary navigation" className="hidden items-center gap-7 md:flex">
+        <nav aria-label="Primary navigation" className="hidden items-center gap-7 md:flex lg:gap-9">
           {navigation.slice(1).map((item) => (
             <Link
               key={item.href}
               href={item.href}
               data-testid={`header-link-${item.label.toLowerCase().replaceAll(" ", "-")}`}
-              className="text-sm font-medium text-[var(--color-warm-muted)] transition-colors hover:text-[var(--color-warm-white)]"
+              className="text-sm font-semibold text-[var(--color-ink-soft)] transition-colors hover:text-[var(--color-ink)] focus:outline-none focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
             >
               {item.label}
             </Link>

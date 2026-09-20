@@ -5,19 +5,11 @@ export function MobileActionBar() {
   return (
     <div
       data-testid="mobile-action-bar"
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-[var(--color-border)] bg-[rgba(17,16,14,0.96)] p-3 backdrop-blur md:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-black/10 bg-white/95 p-3 shadow-[0_-10px_30px_rgba(23,23,21,0.08)] backdrop-blur md:hidden"
     >
-      <div className="mx-auto grid max-w-md grid-cols-2 gap-3">
-        <Button
-          href={business.contact.emailHref}
-          data-testid="mobile-email-link"
-          variant="secondary"
-          className="min-h-12 px-3"
-        >
-          Email Us
-        </Button>
-        <Button href="/contact" data-testid="mobile-estimate-link" className="min-h-12 px-3">
-          Get Estimate
+      <div className="mx-auto max-w-md">
+        <Button href="/contact" data-testid="mobile-estimate-link" className="min-h-12 w-full">
+          {business.primaryCta}
         </Button>
       </div>
     </div>

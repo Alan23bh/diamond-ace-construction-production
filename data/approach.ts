@@ -4,128 +4,171 @@ export type ApproachStep = {
   description: string;
 };
 
-export type Standard = {
-  title: string;
-  description: string;
-};
-
-export type Audience = {
+export type ApproachHighlight = {
   label: string;
   description: string;
 };
 
-export const approachHero = {
-  eyebrow: "Our Approach",
-  title: "A dependable process for painting, repairs, turnovers, and interior improvements.",
-  intro:
-    "Diamond Ace Construction LLC is built around clear communication, careful preparation, respectful job sites, and finish-focused work for Central Florida homes and rentals.",
-  note:
-    "Every project starts with understanding the space, the scope, and what needs to happen next.",
+export type ApproachDetail = {
+  title: string;
+  description: string;
 };
+
+export const approachHero = {
+  eyebrow: "Our Approach • Central Florida",
+  title: "Clear Scope, Careful Prep & Finish-Focused Work.",
+  intro:
+    "Diamond Ace Construction keeps painting, turnover, and wall-repair work centered on clear expectations, property-aware preparation, and a clean finished result.",
+  primaryCta: "Request an Estimate",
+  secondaryCta: "See the Process",
+  image: "/media/approach/approach-hero.webp",
+  imageAlt: "Painter preparing to work inside a bright room with a brush and stepladder",
+  imageCredit: "Anete Lusina / Pexels",
+  imageSource: "https://www.pexels.com/photo/painter-with-brush-leaning-on-stepladder-4792500/",
+} as const;
+
+export const approachHighlights: ApproachHighlight[] = [
+  {
+    label: "Clear Scope",
+    description: "Understand the property, service, timing, and areas that need attention.",
+  },
+  {
+    label: "Scheduling & Access",
+    description: "Account for occupied spaces, vacant units, turnover timing, and property access.",
+  },
+  {
+    label: "Prep & Protection",
+    description: "Prepare surfaces and protect nearby areas before finish work begins.",
+  },
+  {
+    label: "Clean Handoff",
+    description: "Review the finished work and leave the space ready for what comes next.",
+  },
+];
+
+export const approachOverview = {
+  eyebrow: "How We Work",
+  title: "A Clear Process From Estimate Request to Finished Work.",
+  intro:
+    "The exact scope changes from project to project, but the working sequence stays practical so homeowners, landlords, and property managers know what happens next.",
+} as const;
 
 export const approachSteps: ApproachStep[] = [
   {
     number: "01",
-    title: "Initial Walkthrough & Estimate",
+    title: "Estimate Request",
     description:
-      "We start by learning what needs to be painted, repaired, refreshed, or prepared so the estimate matches the actual work.",
+      "Share the property location, services needed, timing, and project details through the estimate form.",
   },
   {
     number: "02",
-    title: "Clear Scope & Scheduling",
+    title: "Scope Review",
     description:
-      "The project scope, timing, access needs, and expectations are clarified before work begins.",
+      "We review the request and follow up by email when we need clarification about the space or requested work.",
   },
   {
     number: "03",
-    title: "Surface Prep & Protection",
+    title: "Scheduling & Access",
     description:
-      "Floors, fixtures, and occupied areas are treated with care while surfaces are prepared for better finish work.",
+      "Once the scope is understood, timing, access, and the next step toward an estimate are discussed.",
   },
   {
     number: "04",
-    title: "Painting, Repairs, Turnover, or Improvement Work",
+    title: "Prep & Protection",
     description:
-      "The approved work is completed with attention to clean lines, repair details, and practical property needs.",
+      "Surfaces and nearby areas are prepared with the property type and approved scope in mind before finish work begins.",
   },
   {
     number: "05",
-    title: "Final Walkthrough & Cleanup",
+    title: "Painting & Repair Work",
     description:
-      "The work area is reviewed, punch-list details are addressed, and the space is left orderly.",
+      "The approved painting, drywall, texture, or turnover work is completed with attention to prep, coverage, and repair details.",
   },
   {
     number: "06",
-    title: "Next-Step Recommendations When Needed",
+    title: "Final Review & Clean Handoff",
     description:
-      "If additional repair, maintenance, or improvement items come up, we explain them clearly so you can plan ahead.",
+      "The completed work is reviewed and the space is left orderly and ready for the owner, resident, manager, or next stage of the property.",
   },
 ];
 
-export const qualityStandards: Standard[] = [
-  {
-    title: "Protect floors, fixtures, and occupied spaces",
-    description:
-      "Careful protection helps keep homes and rentals usable, orderly, and respected during the work.",
-  },
-  {
-    title: "Prepare surfaces before finish work",
-    description:
-      "Prep is treated as part of the finished result, especially for paint, wall repair, trim, and touch-up work.",
-  },
-  {
-    title: "Communicate scope and scheduling clearly",
-    description:
-      "Clear expectations reduce surprises and help homeowners, landlords, and managers coordinate access.",
-  },
-  {
-    title: "Keep work areas orderly",
-    description:
-      "A neat work area supports better execution and makes the process easier for occupied or turnover spaces.",
-  },
-  {
-    title: "Complete punch-list details carefully",
-    description:
-      "Small details matter when a room, rental, or interior repair needs to feel complete.",
-  },
-  {
-    title: "Leave spaces ready for what comes next",
-    description:
-      "The goal is a cleaner, sharper, more usable space after the work is finished.",
-  },
-];
+export const approachPreparation = {
+  eyebrow: "Prep & Protection",
+  title: "Preparation Is Part of the Finished Result.",
+  description:
+    "Paint can only look as clean as the surface and working conditions allow. That is why preparation, repair details, and protection are treated as part of the work instead of an afterthought.",
+  image: "/media/approach/approach-prep.webp",
+  imageAlt: "Painter preparing and protecting a wall before painting",
+  imageCredit: "Ksenia Chernaya / Pexels",
+  imageSource: "https://www.pexels.com/photo/faceless-house-painter-undercoating-wall-in-bright-room-5691471/",
+  points: [
+    "Review Wall & Surface Condition",
+    "Protect Nearby Areas",
+    "Handle Approved Repair Work",
+    "Prepare Before Finish Coats",
+  ],
+} as const;
 
-export const whoWeServe: Audience[] = [
-  {
-    label: "Homeowners",
-    description: "Interior and exterior painting, repairs, trim, and practical updates.",
-  },
-  {
-    label: "Landlords",
-    description: "Reliable refresh work for rental properties between residents or repairs.",
-  },
-  {
-    label: "Property managers",
-    description: "Clear scope, scheduling, and punch-list support for managed units.",
-  },
-  {
-    label: "Rental owners",
-    description: "Painting, turnover, and light improvement work to keep properties ready.",
-  },
-  {
-    label: "Move-in and move-out refreshes",
-    description: "Repainting, minor repairs, and cleanup-minded finish work.",
-  },
-  {
-    label: "Occupied residential interiors",
-    description: "Respectful preparation and orderly work for lived-in spaces.",
-  },
-];
+export const approachClarity = {
+  eyebrow: "Before Work Begins",
+  title: "The Details We Keep Clear Before the First Coat.",
+  intro:
+    "Good project communication is mostly about removing avoidable surprises before work starts.",
+  items: [
+    {
+      title: "Property & Service",
+      description:
+        "What type of property it is, what areas need attention, and which Diamond Ace services fit the request.",
+    },
+    {
+      title: "Scope & Condition",
+      description:
+        "What is being painted or repaired, what condition the surfaces are in, and what prep may be needed.",
+    },
+    {
+      title: "Timing & Access",
+      description:
+        "When the work is needed, whether the space is occupied or vacant, and how the work area can be accessed.",
+    },
+    {
+      title: "Next Step",
+      description:
+        "What information is still needed, how the estimate process moves forward, and what happens before work begins.",
+    },
+  ] satisfies ApproachDetail[],
+} as const;
+
+export const approachPropertyContext = {
+  eyebrow: "Working Around the Property",
+  title: "Different Properties Need Different Working Conditions.",
+  description:
+    "A lived-in home, a vacant rental, and an apartment turnover may use the same painting and repair skills, but access, protection, timing, and handoff expectations can be very different.",
+  image: "/media/home/turnover-feature.webp",
+  imageAlt: "Painter applying paint carefully around the edge of an interior wall",
+  points: [
+    {
+      title: "Occupied Spaces",
+      description:
+        "Furniture, daily access, protection needs, and communication matter more when people are living or working around the project.",
+    },
+    {
+      title: "Vacant & Turnover Units",
+      description:
+        "The focus shifts toward practical make-ready timing, wall condition, repainting, and getting the space ready for its next use.",
+    },
+    {
+      title: "Property Management Work",
+      description:
+        "Clear scope and straightforward follow-up help managers coordinate units without turning a simple paint-and-repair request into unnecessary remodeling work.",
+    },
+  ] satisfies ApproachDetail[],
+} as const;
 
 export const approachCta = {
-  title: "Start with a clear estimate.",
+  eyebrow: "Start With the Details",
+  title: "Tell Us What the Property Needs and We’ll Review the Next Step.",
   description:
-    "Tell us what needs to be painted, repaired, refreshed, or prepared, along with your timing and location. We will review the details and help define the next step.",
-  ctaLabel: "Get a Free Estimate",
+    "Share the location, service, timing, and project details. We will review the request and follow up by email about the next step toward an estimate.",
+  ctaLabel: "Request an Estimate",
   href: "/contact",
 } as const;

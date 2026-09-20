@@ -1,22 +1,23 @@
 import { homeContent } from "../../data/business";
 import { Container } from "../ui/Container";
+import { Reveal } from "../ui/Reveal";
 
 export function TrustBar() {
   return (
-    <section className="border-b border-[var(--color-border)] bg-[rgba(23,21,17,0.68)]">
+    <section aria-label="Diamond Ace service highlights" className="border-b border-black/10 bg-white">
       <Container>
-        <dl className="grid divide-y divide-[var(--color-border)] md:grid-cols-4 md:divide-x md:divide-y-0">
-          {homeContent.trustPoints.map((point) => (
-            <div key={point.label} className="py-5 md:px-6 md:first:pl-0 md:last:pr-0">
-              <dt className="text-sm font-semibold text-[var(--color-warm-white)]">
-                {point.label}
-              </dt>
-              <dd className="mt-1 text-sm leading-6 text-[var(--color-warm-muted)]">
-                {point.description}
-              </dd>
-            </div>
+        <div className="grid gap-x-8 md:grid-cols-2 lg:gap-x-12 xl:grid-cols-4">
+          {homeContent.trustPoints.map((point, index) => (
+            <Reveal key={point.label} delay={index * 0.06} className="h-full">
+              <div className="h-full border-b border-black/10 py-6 xl:border-b-0">
+                <p className="text-sm font-bold text-[var(--color-ink)]">{point.label}</p>
+                <p className="mt-2 max-w-[17rem] text-sm leading-6 text-[var(--color-ink-soft)]">
+                  {point.description}
+                </p>
+              </div>
+            </Reveal>
           ))}
-        </dl>
+        </div>
       </Container>
     </section>
   );

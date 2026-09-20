@@ -1,40 +1,55 @@
-import { whoWeServe } from "../../data/approach";
+import Image from "next/image";
+import { Check } from "lucide-react";
+import { approachPropertyContext } from "../../data/approach";
 import { Container } from "../ui/Container";
-import { SectionHeading } from "../ui/SectionHeading";
+import { Reveal } from "../ui/Reveal";
 
 export function WhoWeServeSection() {
   return (
-    <section
-      aria-labelledby="who-we-serve-title"
-      className="border-b border-[var(--color-border)] py-16 sm:py-20 lg:py-24"
-    >
+    <section className="bg-[var(--color-page)] py-16 sm:py-20 lg:py-28">
       <Container>
-        <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr]">
-          <SectionHeading
-            eyebrow="Who we serve"
-            title="Practical interior and property refresh support for Central Florida spaces."
-          >
-            <p>
-              The work is shaped for homeowners, rental properties, and occupied spaces where clear
-              expectations and respectful execution matter.
-            </p>
-          </SectionHeading>
+        <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-20">
+          <Reveal>
+            <div className="relative min-h-[28rem] overflow-hidden rounded-xl bg-white shadow-card lg:min-h-[38rem]">
+              <Image
+                src={approachPropertyContext.image}
+                alt={approachPropertyContext.imageAlt}
+                fill
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="object-cover object-center"
+              />
+            </div>
+          </Reveal>
 
-          <div className="border-y border-[var(--color-border)]">
-            {whoWeServe.map((audience) => (
-              <article
-                key={audience.label}
-                className="grid gap-2 border-b border-[var(--color-border)] py-5 last:border-b-0 sm:grid-cols-[14rem_1fr] sm:gap-6"
-              >
-                <h2 className="text-base font-semibold text-[var(--color-warm-white)]">
-                  {audience.label}
-                </h2>
-                <p className="text-sm leading-7 text-[var(--color-warm-muted)]">
-                  {audience.description}
-                </p>
-              </article>
-            ))}
-          </div>
+          <Reveal delay={0.08}>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.12em] text-[var(--color-accent-dark)]">
+                {approachPropertyContext.eyebrow}
+              </p>
+              <h2 className="text-balance mt-4 max-w-3xl text-3xl font-semibold leading-[1.05] tracking-[-0.035em] text-[var(--color-ink)] sm:text-4xl lg:text-5xl">
+                {approachPropertyContext.title}
+              </h2>
+              <p className="mt-6 max-w-2xl text-base leading-7 text-[var(--color-ink-soft)] sm:text-lg sm:leading-8">
+                {approachPropertyContext.description}
+              </p>
+
+              <div className="mt-8 border-t border-black/10">
+                {approachPropertyContext.points.map((point) => (
+                  <article key={point.title} className="grid gap-3 border-b border-black/10 py-5 sm:grid-cols-[2rem_1fr]">
+                    <span className="mt-0.5 flex h-7 w-7 items-center justify-center rounded-full bg-[var(--color-accent-soft)] text-[var(--color-accent-dark)]">
+                      <Check aria-hidden="true" size={14} />
+                    </span>
+                    <div>
+                      <h3 className="text-base font-semibold text-[var(--color-ink)]">{point.title}</h3>
+                      <p className="mt-1.5 text-sm leading-7 text-[var(--color-ink-soft)]">
+                        {point.description}
+                      </p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </Reveal>
         </div>
       </Container>
     </section>

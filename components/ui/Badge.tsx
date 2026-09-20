@@ -4,13 +4,17 @@ import { cn } from "../../lib/utils";
 type BadgeProps = {
   children: ReactNode;
   className?: string;
+  tone?: "dark" | "light";
 };
 
-export function Badge({ children, className }: BadgeProps) {
+export function Badge({ children, className, tone = "dark" }: BadgeProps) {
   return (
     <span
       className={cn(
-        "inline-flex rounded-full border border-[var(--color-border)] px-3 py-1 text-xs font-semibold uppercase text-[var(--color-soft-beige)]",
+        "inline-flex rounded-full border px-3 py-1 text-[0.7rem] font-bold uppercase tracking-[0.12em]",
+        tone === "dark"
+          ? "border-white/25 bg-black/10 text-white"
+          : "border-black/10 bg-white text-[var(--color-ink-soft)]",
         className,
       )}
     >

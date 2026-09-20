@@ -7,13 +7,13 @@ describe("Mobile action bar", () => {
     await browser.url("/");
   });
 
-  it("appears at mobile size with an email action", async () => {
+  it("appears at mobile size with the primary estimate action", async () => {
     const actionBar = await $('[data-testid="mobile-action-bar"]');
-    const emailLink = await $('[data-testid="mobile-email-link"]');
+    const estimateLink = await $('[data-testid="mobile-estimate-link"]');
 
     await expect(actionBar).toBeDisplayed();
-    await expect(emailLink).toHaveText("Email Us");
-    await expect(emailLink).toHaveAttribute("href", "mailto:dacflorida11@gmail.com");
+    await expect(estimateLink).toHaveText("Request an Estimate");
+    await expect(estimateLink).toHaveAttribute("href", "/contact");
   });
 
   it("does not cover the primary page content", async () => {

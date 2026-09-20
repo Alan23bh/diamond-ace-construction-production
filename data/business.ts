@@ -1,108 +1,73 @@
 import type { BusinessInfo } from "../types";
 
 export const business: BusinessInfo = {
-  name: "Diamond Ace Construction LLC",
+  legalName: "Diamond Ace Construction LLC",
+  name: "Diamond Ace Construction",
   shortName: "Diamond Ace",
   description:
-    "Family-owned painting and interior improvement company serving all of Florida, with a strong focus on Central Florida.",
-  familyOwnedLine:
-    "Family-owned, detail-focused, and built around clear communication.",
-  primaryCta: "Get a Free Estimate",
-  secondaryCta: "View Work Examples",
+    "Family-owned painting company specializing in apartment turnovers, interior painting, drywall and texture repair, and exterior painting across Central Florida.",
+  primaryCta: "Request an Estimate",
   contact: {
     emailDisplay: "dacflorida11@gmail.com",
     emailHref: "mailto:dacflorida11@gmail.com",
     leadDestination: "dacflorida11@gmail.com",
   },
   hours: [
-    { label: "Monday - Friday", value: "8:00 AM - 6:00 PM" },
-    { label: "Saturday", value: "By appointment" },
-    { label: "Sunday", value: "Closed" },
+    {
+      label: "Monday–Friday",
+      value: "9:00 AM–5:00 PM",
+      days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "09:00",
+      closes: "17:00",
+    },
   ],
+  foundedYear: 2008,
+  currentNameSince: 2014,
 };
 
 export const homeContent = {
-  eyebrow: "Family-owned in Florida",
-  headline:
-    "Painting, apartment turnovers, repairs, and reliable interior improvement work.",
+  eyebrow: "Family-Owned • Central Florida",
+  headline: "Apartment Turnovers, Painting & Drywall Work for Central Florida.",
   intro:
-    "Diamond Ace Construction LLC helps Central Florida homeowners, landlords, and property managers keep spaces clean, finished, and ready for everyday use.",
+    "Diamond Ace Construction helps property managers, landlords, homeowners, and businesses get spaces repainted, repaired, and ready for what comes next.",
   secondaryCta: "Explore Services",
-  visualTitle: "Interior refresh placeholder",
-  visualDescription:
-    "A reserved visual area for future project photography, before-and-after details, or finish-focused work examples.",
   trustPoints: [
     {
-      label: "Family-Owned",
-      description: "Direct communication and careful workmanship from a local team.",
+      label: "Apartment Turnovers",
+      description: "Repainting and wall-repair support for move-out and make-ready work.",
     },
     {
-      label: "Central Florida Focus",
-      description: "Serving Florida with a strong focus on the Orlando area.",
+      label: "Painting First",
+      description: "Interior painting is at the center of the work we take on.",
     },
     {
-      label: "Homes, Rentals & Apartment Turnovers",
-      description: "Built for residential refreshes, repairs, and make-ready work.",
+      label: "Central Florida",
+      description: "Focused on Poinciana, Kissimmee, Orlando, and nearby communities.",
     },
     {
-      label: "Free Estimates",
-      description: "Clear next steps before painting, repairs, or improvement work begins.",
+      label: "Operating Since 2008",
+      description: "Years of hands-on experience across apartments and residential properties.",
     },
   ],
-  serviceIntroTitle: "A focused foundation for the full marketing site.",
-  serviceIntro:
-    "The homepage will group services into four clear categories, while the full services page can expand into the complete service list.",
-  serviceCategories: [
-    "Residential Painting",
-    "Apartment Turnovers",
-    "Interior Repairs & Trim",
-    "Light Remodeling",
-  ],
-};
-
-export const servicesContent = {
-  eyebrow: "Services",
-  headline: "Painting, repair, turnover, and light remodeling services.",
-  intro:
-    "This page is scaffolded for the full service content pass. The complete service list is centralized here now so the next build ticket can expand it cleanly.",
-  services: [
-    "Interior painting",
-    "Exterior painting",
-    "Apartment turnovers",
-    "Drywall patching and wall repair",
-    "Baseboards",
-    "Trim work",
-    "Door repairs and installation support",
-    "Cabinet painting / cabinet refresh",
-    "Pressure washing",
-    "Flooring support / light flooring work",
-    "Bathroom and kitchen light remodels",
-  ],
-};
-
-export const portfolioContent = {
-  eyebrow: "Portfolio",
-  headline:
-    "Work examples for painting, repairs, turnovers, and interior improvements.",
-  intro:
-    "During development, these are styled placeholders only. They show the intended portfolio structure without claiming completed project photography.",
-  placeholderLabel: "Placeholder image panel",
-  examples: [
-    "Interior repaint example",
-    "Apartment turnover example",
-    "Trim repair example",
-    "Cabinet refresh example",
-  ],
-};
+} as const;
 
 export const contactContent = {
-  eyebrow: "Estimate request",
-  headline: "Request a free estimate.",
+  eyebrow: "Estimate Request",
+  headline: "Tell Us About the Property. We’ll Review the Next Step.",
   intro:
-    "Tell us about the project, timing, and location. Diamond Ace Construction LLC will review the details and follow up with the next step toward an estimate.",
+    "Share the service, property location, timing, and best way to reach you. We’ll review the details and follow up with the next step.",
   nextSteps: [
-    "We review the project details.",
-    "We follow up with any needed questions.",
-    "We confirm a path toward an estimate.",
+    {
+      title: "We Review the Request",
+      description: "We look over the property, service, scope, timing, and contact details you submit.",
+    },
+    {
+      title: "We Follow Up",
+      description: "If anything needs clarification, we follow up with the questions needed to understand the work.",
+    },
+    {
+      title: "We Confirm the Next Step",
+      description: "Once the scope is understood, we confirm the next step toward an estimate and scheduling conversation.",
+    },
   ],
-};
+} as const;

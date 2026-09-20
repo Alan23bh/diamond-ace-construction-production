@@ -1,64 +1,55 @@
-"use client";
-
-import { motion, useReducedMotion } from "framer-motion";
-import { approachSteps } from "../../data/approach";
+import { approachOverview, approachSteps } from "../../data/approach";
 import { Container } from "../ui/Container";
-import { SectionHeading } from "../ui/SectionHeading";
+import { Reveal } from "../ui/Reveal";
 
 export function ApproachTimeline() {
-  const shouldReduceMotion = useReducedMotion();
-
   return (
     <section
-      aria-labelledby="approach-timeline-title"
-      className="border-b border-[var(--color-border)] py-16 sm:py-20 lg:py-24"
+      id="approach-process"
+      data-testid="approach-process"
+      aria-labelledby="approach-process-title"
+      className="scroll-mt-24 bg-[var(--color-page)] py-16 sm:py-20 lg:py-28"
     >
       <Container>
-        <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr]">
-          <SectionHeading
-            eyebrow="How we work"
-            title="A clear sequence from first walkthrough to final cleanup."
-          >
-            <p>
-              The process is designed to keep scope, timing, prep, and finish work clear from the
-              beginning.
-            </p>
-          </SectionHeading>
-
-          <ol className="relative border-l border-[var(--color-border)]">
-            {approachSteps.map((step, index) => (
-              <motion.li
-                key={step.title}
-                initial={{ opacity: 0, x: shouldReduceMotion ? 0 : 18 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{
-                  duration: shouldReduceMotion ? 0 : 0.42,
-                  delay: shouldReduceMotion ? 0 : index * 0.04,
-                  ease: "easeOut",
-                }}
-                className="relative border-t border-[var(--color-border)] py-6 pl-7 first:border-t-0 first:pt-0 last:pb-0"
+        <Reveal>
+          <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-20">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.12em] text-[var(--color-accent-dark)]">
+                {approachOverview.eyebrow}
+              </p>
+              <h2
+                id="approach-process-title"
+                className="text-balance mt-4 max-w-3xl text-3xl font-semibold leading-[1.05] tracking-[-0.035em] text-[var(--color-ink)] sm:text-4xl lg:text-5xl"
               >
-                <span
-                  aria-hidden="true"
-                  className="absolute -left-px top-7 h-10 w-px bg-[var(--color-brass)]"
-                />
-                <div className="grid gap-3 sm:grid-cols-[5rem_1fr]">
-                  <p className="text-sm font-semibold text-[var(--color-brass)]">
-                    {step.number}
-                  </p>
-                  <div>
-                    <h2 className="text-xl font-semibold leading-tight text-[var(--color-warm-white)]">
-                      {step.title}
-                    </h2>
-                    <p className="mt-3 text-sm leading-7 text-[var(--color-warm-muted)]">
-                      {step.description}
-                    </p>
-                  </div>
-                </div>
-              </motion.li>
-            ))}
-          </ol>
+                {approachOverview.title}
+              </h2>
+            </div>
+            <p className="max-w-2xl text-base leading-7 text-[var(--color-ink-soft)] lg:justify-self-end lg:text-lg lg:leading-8">
+              {approachOverview.intro}
+            </p>
+          </div>
+        </Reveal>
+
+        <div className="mt-12 grid border-t border-black/10 md:grid-cols-2 lg:mt-16 lg:grid-cols-3">
+          {approachSteps.map((step, index) => (
+            <Reveal key={step.number} delay={(index % 3) * 0.05} className="h-full">
+              <article
+                data-testid={`approach-step-${step.number}`}
+                className={`relative h-full border-b border-black/10 px-0 py-8 md:px-7 lg:px-8 ${
+                  index % 2 === 0 ? "md:border-r" : ""
+                } ${index % 3 === 2 ? "lg:border-r-0" : "lg:border-r"}`}
+              >
+                <span className="absolute left-0 top-0 h-[2px] w-12 bg-[var(--color-accent)] md:left-7 lg:left-8" />
+                <p className="text-sm font-bold text-[var(--color-accent-dark)]">{step.number}</p>
+                <h3 className="mt-5 text-xl font-semibold leading-tight tracking-[-0.025em] text-[var(--color-ink)]">
+                  {step.title}
+                </h3>
+                <p className="mt-3 max-w-md text-sm leading-7 text-[var(--color-ink-soft)]">
+                  {step.description}
+                </p>
+              </article>
+            </Reveal>
+          ))}
         </div>
       </Container>
     </section>

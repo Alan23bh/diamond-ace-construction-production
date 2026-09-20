@@ -2,13 +2,15 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion, useReducedMotion } from "framer-motion";
-import { useState } from "react";
+import { Check } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { EstimateStepContact } from "./EstimateStepContact";
 import { EstimateStepDetails } from "./EstimateStepDetails";
 import { EstimateStepProject } from "./EstimateStepProject";
 import { EstimateStepReview } from "./EstimateStepReview";
 import { EstimateSuccess } from "./EstimateSuccess";
+import { submitEstimateRequest } from "../../lib/leadSubmission";
 import {
   estimateDefaultValues,
   estimateRequestSchema,
@@ -24,7 +26,7 @@ const steps = [
     >,
   },
   {
-    label: "Details",
+    label: "Scope",
     fields: ["services", "projectSize", "timeline", "notes"] satisfies Array<
       keyof EstimateRequestInput
     >,
@@ -50,6 +52,7 @@ export function EstimateForm() {
   const shouldReduceMotion = useReducedMotion();
   const [currentStep, setCurrentStep] = useState(0);
   const [submitState, setSubmitState] = useState<SubmitState>({ status: "idle" });
+  const formRef = useRef<HTMLFormElement>(null);
 
   const methods = useForm<EstimateRequestInput>({
     resolver: zodResolver(estimateRequestSchema),
@@ -63,6 +66,19 @@ export function EstimateForm() {
     trigger,
     formState: { isSubmitting },
   } = methods;
+
+  useEffect(() => {
+    if (currentStep === 0 || window.matchMedia("(min-width: 768px)").matches) {
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      formRef.current?.scrollIntoView({
+        behavior: shouldReduceMotion ? "auto" : "smooth",
+        block: "start",
+      });
+    });
+  }, [currentStep, shouldReduceMotion]);
 
   async function goNext() {
     const fields = steps[currentStep].fields;
@@ -82,30 +98,14 @@ export function EstimateForm() {
   async function onSubmit(values: EstimateRequestInput) {
     setSubmitState({ status: "idle" });
 
-    const response = await fetch("/api/estimate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...(window.location.search.includes("e2e=1") ? { "x-dac-e2e-test": "true" } : {}),
-      },
-      body: JSON.stringify(values),
-    });
+    const result = await submitEstimateRequest(values);
 
-    const result = (await response.json().catch(() => ({}))) as {
-      ok?: boolean;
-      simulated?: boolean;
-      message?: string;
-    };
-
-    if (!response.ok || !result.ok) {
-      setSubmitState({
-        status: "error",
-        message: result.message || "We could not send the estimate request right now.",
-      });
+    if (!result.ok) {
+      setSubmitState({ status: "error", message: result.message });
       return;
     }
 
-    setSubmitState({ status: "success", simulated: Boolean(result.simulated) });
+    setSubmitState({ status: "success", simulated: result.simulated });
   }
 
   if (submitState.status === "success") {
@@ -115,69 +115,102 @@ export function EstimateForm() {
   return (
     <FormProvider {...methods}>
       <form
+        ref={formRef}
+        noValidate
         onSubmit={handleSubmit(onSubmit)}
         data-testid="estimate-form"
-        className="border border-[var(--color-border)] bg-[rgba(23,21,17,0.72)] p-5 sm:p-6"
+        aria-label="Estimate request form"
+        className="scroll-mt-24 overflow-hidden rounded-2xl border border-black/10 bg-white shadow-[0_22px_70px_rgba(23,23,21,0.1)]"
       >
         <input
           type="text"
           tabIndex={-1}
           autoComplete="off"
           aria-hidden="true"
-          className="hidden"
+          className="absolute h-px w-px overflow-hidden whitespace-nowrap border-0 p-0 [clip:rect(0,0,0,0)] [clip-path:inset(50%)]"
           {...register("company")}
         />
 
-        <ol className="grid grid-cols-4 border-b border-[var(--color-border)] pb-5">
-          {steps.map((step, index) => (
-            <li key={step.label}>
-              <div
-                className="flex flex-col gap-2"
-                aria-current={currentStep === index ? "step" : undefined}
-              >
-                <span className="text-xs font-semibold text-[var(--color-brass)]">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <span className="text-xs font-semibold text-[var(--color-warm-muted)] sm:text-sm">
-                  {step.label}
-                </span>
-                <span
-                  aria-hidden="true"
-                  className={
-                    currentStep >= index
-                      ? "h-px bg-[var(--color-brass)]"
-                      : "h-px bg-[var(--color-border)]"
-                  }
-                />
-              </div>
-            </li>
-          ))}
-        </ol>
+        <div className="border-b border-black/10 px-5 py-5 sm:px-7 lg:px-8">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.12em] text-[var(--color-accent-dark)]">
+                Estimate Request
+              </p>
+              <p className="mt-1 text-sm text-[var(--color-ink-muted)]" aria-live="polite">
+                Step {currentStep + 1} of {steps.length}: {steps[currentStep].label}
+              </p>
+            </div>
+            <p className="hidden text-sm font-medium text-[var(--color-ink-soft)] sm:block">
+              {steps[currentStep].label}
+            </p>
+          </div>
 
-        <motion.div
-          key={currentStep}
-          initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: shouldReduceMotion ? 0 : 0.28, ease: "easeOut" }}
-          className="mt-6"
-        >
-          {currentStep === 0 ? <EstimateStepProject /> : null}
-          {currentStep === 1 ? <EstimateStepDetails /> : null}
-          {currentStep === 2 ? <EstimateStepContact /> : null}
-          {currentStep === 3 ? <EstimateStepReview /> : null}
-        </motion.div>
+          <ol className="mt-5 grid grid-cols-4 gap-2" aria-label="Estimate request progress">
+            {steps.map((step, index) => {
+              const isComplete = currentStep > index;
+              const isCurrent = currentStep === index;
 
-        {submitState.status === "error" ? (
-          <p className="mt-5 border-l border-[var(--color-brass)] pl-4 text-sm leading-6 text-[var(--color-soft-beige)]">
-            {submitState.message}
-          </p>
-        ) : null}
+              return (
+                <li key={step.label} aria-current={isCurrent ? "step" : undefined}>
+                  <div className="flex items-center gap-2">
+                    <span
+                      className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border text-[11px] font-bold transition ${
+                        isComplete
+                          ? "border-[var(--color-accent-dark)] bg-[var(--color-accent-dark)] text-white"
+                          : isCurrent
+                            ? "border-[var(--color-accent)] bg-[var(--color-accent-soft)] text-[var(--color-accent-dark)]"
+                            : "border-black/10 bg-[var(--color-page)] text-[var(--color-ink-muted)]"
+                      }`}
+                    >
+                      {isComplete ? <Check aria-hidden="true" size={13} strokeWidth={3} /> : index + 1}
+                    </span>
+                    <span className="hidden text-xs font-semibold text-[var(--color-ink-soft)] md:inline">
+                      {step.label}
+                    </span>
+                  </div>
+                  <span
+                    aria-hidden="true"
+                    className={`mt-3 block h-[2px] rounded-full ${
+                      currentStep >= index ? "bg-[var(--color-accent)]" : "bg-black/10"
+                    }`}
+                  />
+                </li>
+              );
+            })}
+          </ol>
+        </div>
 
-        <div className="mt-7 flex flex-col-reverse gap-3 border-t border-[var(--color-border)] pt-5 sm:flex-row sm:justify-between">
+        <div className="px-5 py-7 sm:px-7 sm:py-8 lg:px-8 lg:py-9">
+          <motion.div
+            key={currentStep}
+            initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.28, ease: "easeOut" }}
+          >
+            {currentStep === 0 ? <EstimateStepProject /> : null}
+            {currentStep === 1 ? <EstimateStepDetails /> : null}
+            {currentStep === 2 ? <EstimateStepContact /> : null}
+            {currentStep === 3 ? <EstimateStepReview /> : null}
+          </motion.div>
+
+          {submitState.status === "error" ? (
+            <p
+              className="mt-6 rounded-lg border border-[#983f34]/20 bg-[#983f34]/5 px-4 py-3 text-sm leading-6 text-[#84372e]"
+              role="alert"
+              aria-live="assertive"
+            >
+              {submitState.message}
+            </p>
+          ) : null}
+        </div>
+
+        <div className="flex flex-col-reverse gap-3 border-t border-black/10 bg-[var(--color-page)] px-5 py-5 sm:flex-row sm:justify-between sm:px-7 lg:px-8">
           <Button
             type="button"
             data-testid="estimate-back"
-            variant="secondary"
+            variant="ghost"
+            className="border border-black/10 bg-white"
             onClick={goBack}
             disabled={currentStep === 0}
           >

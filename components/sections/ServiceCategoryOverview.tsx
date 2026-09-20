@@ -1,174 +1,87 @@
-"use client";
-
+import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
-import {
-  serviceCategories,
-  serviceCategoryOverview,
-  type ServiceCategory,
-} from "../../data/serviceCategories";
+import { ArrowUpRight, Check } from "lucide-react";
+import { serviceCategories, serviceCategoryOverview } from "../../data/serviceCategories";
 import { Container } from "../ui/Container";
-
-function CategoryFeature({ category }: { category: ServiceCategory }) {
-  const visualSteps = ["Prep", "Paint", "Repair", "Turnover", "Finish"];
-
-  return (
-    <article className="grid gap-6 xl:grid-cols-[0.92fr_1.08fr] xl:items-stretch">
-      <div className="relative min-h-[24rem] overflow-hidden border border-[var(--color-border)] bg-[var(--color-charcoal-800)] p-5 sm:min-h-[20rem] sm:p-6 xl:min-h-[26rem] 2xl:min-h-[19rem]">
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 opacity-65 [background-image:linear-gradient(rgba(246,241,232,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(246,241,232,0.045)_1px,transparent_1px)] [background-size:38px_38px]"
-        />
-        <div aria-hidden="true" className="absolute left-8 top-8 h-[48%] w-[62%] border border-[rgba(216,203,184,0.16)]" />
-        <div aria-hidden="true" className="absolute bottom-9 right-8 h-[44%] w-[48%] border border-[rgba(216,203,184,0.12)] bg-[rgba(246,241,232,0.03)]" />
-        <div aria-hidden="true" className="absolute left-[30%] top-[30%] h-px w-[42%] bg-[var(--color-brass)]" />
-        <div aria-hidden="true" className="absolute left-[30%] top-[30%] h-[38%] w-px bg-[var(--color-brass)]" />
-
-        <div className="relative flex min-h-[21.5rem] flex-col justify-between gap-8 sm:min-h-[17rem] xl:min-h-[23rem] 2xl:min-h-[16rem]">
-          <div className="flex items-start justify-between gap-5">
-            <p className="text-sm font-semibold text-[var(--color-brass)]">{category.number}</p>
-            <p className="max-w-[12rem] text-right text-xs uppercase leading-5 text-[var(--color-soft-beige)]">
-              {category.visualLabel}
-            </p>
-          </div>
-
-          <div aria-hidden="true" className="flex flex-1 items-center">
-            <div className="h-px w-full bg-[rgba(184,150,90,0.58)]" />
-          </div>
-
-          <ol className="grid grid-cols-1 gap-2 min-[520px]:grid-cols-2 md:grid-cols-5 xl:grid-cols-2 2xl:grid-cols-5">
-            {visualSteps.map((step, index) => (
-              <li
-                key={step}
-                className="flex min-h-14 items-center gap-3 border border-[rgba(246,241,232,0.12)] bg-[rgba(17,16,14,0.55)] px-3 py-3"
-              >
-                <span className="shrink-0 text-xs font-semibold text-[var(--color-brass)]">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <span aria-hidden="true" className="h-px min-w-4 flex-1 bg-[rgba(184,150,90,0.35)]" />
-                <span className="shrink-0 text-sm font-semibold text-[var(--color-warm-white)]">
-                  {step}
-                </span>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </div>
-
-      <div className="border-y border-[var(--color-border)] py-6 xl:flex xl:flex-col xl:justify-center xl:py-8">
-        <p className="text-sm font-semibold text-[var(--color-brass)]">{category.number}</p>
-        <h3 className="mt-4 text-3xl font-semibold leading-tight text-[var(--color-warm-white)] sm:text-4xl">
-          {category.title}
-        </h3>
-        <p className="mt-5 max-w-2xl text-base leading-7 text-[var(--color-warm-muted)]">
-          {category.description}
-        </p>
-        <ul className="mt-6 grid gap-2 sm:grid-cols-3">
-          {category.examples.map((example) => (
-            <li
-              key={example}
-              className="border-l border-[var(--color-border)] pl-3 text-sm text-[var(--color-soft-beige)]"
-            >
-              {example}
-            </li>
-          ))}
-        </ul>
-        <Link
-          href={category.href}
-          className="mt-7 inline-flex w-fit items-center text-sm font-semibold text-[var(--color-warm-white)] transition-colors hover:text-[var(--color-brass)]"
-        >
-          Explore services
-          <span aria-hidden="true" className="ml-2 text-[var(--color-brass)]">
-            /
-          </span>
-        </Link>
-      </div>
-    </article>
-  );
-}
-
-function CategoryRow({ category }: { category: ServiceCategory }) {
-  return (
-    <article className="grid gap-5 border-t border-[var(--color-border)] py-7 md:grid-cols-[5rem_1fr_12rem] md:items-start">
-      <div className="flex items-center gap-3 md:block">
-        <p className="text-sm font-semibold text-[var(--color-brass)]">{category.number}</p>
-        <p className="text-xs uppercase text-[var(--color-stone)] md:mt-4">
-          {category.visualLabel}
-        </p>
-      </div>
-
-      <div>
-        <h3 className="text-2xl font-semibold leading-tight text-[var(--color-warm-white)]">
-          {category.title}
-        </h3>
-        <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--color-warm-muted)]">
-          {category.description}
-        </p>
-        <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-2">
-          {category.examples.map((example) => (
-            <li key={example} className="text-sm text-[var(--color-soft-beige)]">
-              {example}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <Link
-        href={category.href}
-        className="text-sm font-semibold text-[var(--color-warm-white)] transition-colors hover:text-[var(--color-brass)] md:justify-self-end"
-      >
-        View details
-      </Link>
-    </article>
-  );
-}
+import { Reveal } from "../ui/Reveal";
 
 export function ServiceCategoryOverview() {
-  const shouldReduceMotion = useReducedMotion();
-  const [featuredCategory, ...supportingCategories] = serviceCategories;
-
   return (
     <section
       aria-labelledby="service-category-overview-title"
-      className="border-b border-[var(--color-border)] py-16 sm:py-20 lg:py-24"
+      className="bg-[var(--color-surface-muted)] py-16 sm:py-20 lg:py-28"
     >
       <Container>
-        <motion.div
-          initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 14 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: shouldReduceMotion ? 0 : 0.5, ease: "easeOut" }}
-          className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-end"
-        >
-          <div>
-            <p className="text-xs font-semibold uppercase text-[var(--color-brass)]">
-              {serviceCategoryOverview.eyebrow}
-            </p>
-            <h2
-              id="service-category-overview-title"
-              className="text-balance mt-4 text-3xl font-semibold leading-tight text-[var(--color-warm-white)] sm:text-4xl lg:text-5xl"
-            >
-              {serviceCategoryOverview.title}
-            </h2>
+        <Reveal>
+          <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end lg:gap-14">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.12em] text-[var(--color-accent-dark)]">
+                {serviceCategoryOverview.eyebrow}
+              </p>
+              <h2
+                id="service-category-overview-title"
+                className="text-balance mt-4 max-w-3xl text-3xl font-semibold leading-[1.05] tracking-[-0.035em] text-[var(--color-ink)] sm:text-4xl lg:text-5xl"
+              >
+                {serviceCategoryOverview.title}
+              </h2>
+            </div>
+
+            <div className="lg:justify-self-end">
+              <p className="max-w-2xl text-base leading-7 text-[var(--color-ink-soft)]">
+                {serviceCategoryOverview.intro}
+              </p>
+              <ul className="mt-6 grid gap-x-8 gap-y-3 sm:grid-cols-2" aria-label="Service focus highlights">
+                {serviceCategoryOverview.highlights.map((highlight) => (
+                  <li
+                    key={highlight}
+                    className="flex items-center gap-3 text-sm font-semibold text-[var(--color-ink)]"
+                  >
+                    <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[var(--color-accent-soft)] text-[var(--color-accent-dark)]">
+                      <Check aria-hidden="true" size={14} strokeWidth={2.4} />
+                    </span>
+                    <span>{highlight}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-          <p className="max-w-2xl text-base leading-7 text-[var(--color-warm-muted)] lg:justify-self-end">
-            {serviceCategoryOverview.intro}
-          </p>
-        </motion.div>
+        </Reveal>
 
-        <motion.div
-          initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: shouldReduceMotion ? 0 : 0.55, ease: "easeOut" }}
-          className="mt-12"
-        >
-          <CategoryFeature category={featuredCategory} />
-        </motion.div>
+        <div className="mt-10 grid gap-5 md:grid-cols-2 lg:mt-14 lg:gap-6">
+          {serviceCategories.map((category, index) => (
+            <Reveal key={category.id} delay={(index % 2) * 0.08} className="h-full">
+              <article
+                data-testid={`home-service-${category.id}`}
+                className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-black/[0.045] transition-transform duration-300 hover:-translate-y-1"
+              >
+                <div className="relative aspect-[16/10] overflow-hidden bg-[#ddd9d0]">
+                  <Image
+                    src={category.image}
+                    alt={category.imageAlt}
+                    fill
+                    sizes="(min-width: 768px) 50vw, 100vw"
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]"
+                    priority={index < 2}
+                  />
+                </div>
 
-        <div className="mt-8">
-          {supportingCategories.map((category) => (
-            <CategoryRow key={category.title} category={category} />
+                <div className="flex flex-1 flex-col p-6 sm:p-7">
+                  <h3 className="text-2xl font-semibold tracking-[-0.03em] text-[var(--color-ink)] sm:text-[1.7rem]">
+                    {category.title}
+                  </h3>
+                  <p className="mt-3 max-w-xl text-sm leading-6 text-[var(--color-ink-soft)] sm:text-base sm:leading-7">
+                    {category.description}
+                  </p>
+                  <Link
+                    href={`/services#${category.id}`}
+                    className="mt-6 inline-flex w-fit items-center gap-2 text-sm font-bold text-[var(--color-accent-dark)] transition-colors hover:text-[var(--color-ink)] focus:outline-none focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
+                  >
+                    Explore Service
+                    <ArrowUpRight aria-hidden="true" size={16} />
+                  </Link>
+                </div>
+              </article>
+            </Reveal>
           ))}
         </div>
       </Container>

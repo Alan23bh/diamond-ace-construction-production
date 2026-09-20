@@ -1,135 +1,239 @@
-export type ServiceGroup = {
+export const serviceNames = {
+  apartmentTurnovers: "Apartment Turnovers",
+  interiorPainting: "Interior Painting",
+  drywallTexture: "Drywall Repair & Texture",
+  exteriorPainting: "Exterior Painting",
+} as const;
+
+export type ServiceId =
+  | "apartment-turnovers"
+  | "interior-painting"
+  | "drywall-texture"
+  | "exterior-painting";
+
+export type ServiceDefinition = {
+  id: ServiceId;
   number: string;
-  title: string;
+  title: (typeof serviceNames)[keyof typeof serviceNames];
+  shortTitle: string;
   description: string;
+  detail: string;
+  bestFor: string;
   services: string[];
+  image: string;
+  imageAlt: string;
+  imageCredit: string;
+  imageSource: string;
 };
+
+export const serviceCatalog: ServiceDefinition[] = [
+  {
+    id: "apartment-turnovers",
+    number: "01",
+    title: serviceNames.apartmentTurnovers,
+    shortTitle: "Turnovers",
+    description:
+      "Painting and wall-repair support for move-outs, make-ready schedules, and units that need a clean reset before the next resident.",
+    detail:
+      "Turnover work is where Diamond Ace has the deepest day-to-day experience. The goal is practical: get walls, repaired areas, and painted surfaces ready for the next resident without turning a straightforward refresh into a larger remodeling project.",
+    bestFor: "Apartment communities, property managers, landlords, and rental owners",
+    services: [
+      "Move-Out & Make-Ready Repainting",
+      "Drywall Patching Before Paint",
+      "Wall & Ceiling Touch-Ups",
+      "Rental-Ready Finish Work",
+    ],
+    image: "/media/services/apartment-turnover.webp",
+    imageAlt: "Apartment interior under renovation with fresh paint and painting supplies",
+    imageCredit: "Ksenia Chernaya / Pexels",
+    imageSource: "https://www.pexels.com/photo/5768031/",
+  },
+  {
+    id: "interior-painting",
+    number: "02",
+    title: serviceNames.interiorPainting,
+    shortTitle: "Interior Painting",
+    description:
+      "Interior painting for homes, rentals, apartments, and business spaces with attention to prep, coverage, and clean finished surfaces.",
+    detail:
+      "Interior painting can be a full-room refresh, a repaint between tenants, or part of a repair-and-paint scope. We keep the work centered on preparation, coverage, clean edges, and a finished space that feels cared for rather than simply coated with paint.",
+    bestFor: "Homes, occupied or vacant rentals, apartments, and select business interiors",
+    services: [
+      "Walls & Ceilings",
+      "Occupied & Vacant Interiors",
+      "Repaints & Color Changes",
+      "Paint Prep & Touch-Ups",
+    ],
+    image: "/media/services/interior-painting.webp",
+    imageAlt: "Painter applying gray paint to an interior wall with a roller",
+    imageCredit: "Tima Miroshnichenko / Pexels",
+    imageSource: "https://www.pexels.com/photo/6474471/",
+  },
+  {
+    id: "drywall-texture",
+    number: "03",
+    title: serviceNames.drywallTexture,
+    shortTitle: "Drywall & Texture",
+    description:
+      "Interior wall repair and texture work that prepares damaged surfaces for paint and helps repaired areas blend back into the room.",
+    detail:
+      "Small wall damage can make a finished paint job look incomplete. Drywall and texture repair can be handled before painting so patched areas are prepared, transitions are cleaner, and the wall is in better shape before the finish coat goes on.",
+    bestFor: "Wall damage, turnover repairs, patches, and repair-before-paint projects",
+    services: [
+      "Drywall Patching",
+      "Interior Wall Repair",
+      "Surface Preparation",
+      "Interior Texture Repair",
+    ],
+    image: "/media/services/drywall-texture.webp",
+    imageAlt: "Gloved hand smoothing a repaired wall surface with a finishing trowel",
+    imageCredit: "Ksenia Chernaya / Pexels",
+    imageSource: "https://www.pexels.com/photo/5767932/",
+  },
+  {
+    id: "exterior-painting",
+    number: "04",
+    title: serviceNames.exteriorPainting,
+    shortTitle: "Exterior Painting",
+    description:
+      "Exterior painting for residential and select commercial properties that need refreshed, protected, and consistently finished surfaces.",
+    detail:
+      "Exterior projects are considered based on property type, scope, access, and location. The same focus still applies outside: understand the surface, prepare the areas being painted, protect surrounding spaces, and deliver a consistent finish.",
+    bestFor: "Residential exteriors and select commercial painting projects in Central Florida",
+    services: [
+      "Exterior Walls",
+      "Residential Repainting",
+      "Surface Preparation",
+      "Exterior Touch-Ups",
+    ],
+    image: "/media/services/exterior-painting.webp",
+    imageAlt: "Painter applying paint to the exterior wall of a house",
+    imageCredit: "Craig Adderley / Pexels",
+    imageSource: "https://www.pexels.com/photo/1917849/",
+  },
+];
+
+export const servicesHero = {
+  eyebrow: "Services • Central Florida",
+  title: "Painting, Turnovers, Drywall & Exterior Work for Real Property Needs.",
+  intro:
+    "Diamond Ace Construction focuses on four practical service areas: apartment turnovers, interior painting, drywall and texture repair, and exterior painting.",
+  primaryCta: "Request an Estimate",
+  secondaryCta: "Explore Services",
+  image: "/media/services/interior-painting.webp",
+  imageAlt: "Painter applying paint to an interior wall",
+} as const;
+
+export const serviceOverview = {
+  eyebrow: "Focused Services",
+  title: "Four Core Services Without the Extra Remodeling Noise.",
+  intro:
+    "Our scope stays centered on the work we actually perform. Each service can stand alone or combine with related prep and repair work when the property needs it.",
+} as const;
+
+export const serviceGroups = serviceCatalog;
 
 export type IncludedWorkItem = {
   title: string;
   description: string;
 };
 
-export type ServiceFitItem = {
-  label: string;
-  description: string;
-};
-
-export const servicesHero = {
-  eyebrow: "Services",
-  title: "Painting, turnover, repair, and light improvement services for Florida properties.",
-  intro:
-    "Diamond Ace Construction LLC helps homeowners, landlords, property managers, and rental owners handle practical improvements with clear scope, careful preparation, and finish-focused work.",
-  note:
-    "Service details are organized by the type of outcome most clients need: a better finish, a faster turnover, a cleaner repair, or a practical property update.",
-};
-
-export const serviceGroups: ServiceGroup[] = [
-  {
-    number: "01",
-    title: "Residential Painting",
-    description:
-      "Interior and exterior painting support for homes and residential spaces that need careful prep, clean lines, and finishes suited for everyday use.",
-    services: [
-      "Interior painting",
-      "Exterior painting",
-      "Paint prep and touch-ups",
-      "Cabinet painting / cabinet refresh",
-    ],
-  },
-  {
-    number: "02",
-    title: "Apartment Turnovers",
-    description:
-      "Move-out and move-in refresh work for rental units that need repainting, minor repairs, and a clear punch-list path before the next resident.",
-    services: [
-      "Move-out repainting",
-      "Minor repair support",
-      "Rental-ready punch-list work",
-      "Move-in / move-out refreshes",
-    ],
-  },
-  {
-    number: "03",
-    title: "Interior Repairs & Trim",
-    description:
-      "Finish-focused repair support for walls, trim, baseboards, and doors so interior spaces feel cleaner, sharper, and more complete.",
-    services: [
-      "Drywall patching and wall repair",
-      "Baseboards",
-      "Trim work",
-      "Door repairs and installation support",
-    ],
-  },
-  {
-    number: "04",
-    title: "Light Remodeling & Property Support",
-    description:
-      "Practical property updates and support work for areas that need a refresh, better function, or preparation before painting and finish work.",
-    services: [
-      "Pressure washing",
-      "Flooring support / light flooring work",
-      "Bathroom light updates",
-      "Kitchen light updates",
-    ],
-  },
-];
-
 export const includedWork: IncludedWorkItem[] = [
   {
-    title: "Clear scope",
+    title: "Clear Scope",
     description:
-      "The work is defined up front so project needs, access, timing, and expectations are easier to coordinate.",
+      "We start by understanding the property, service, timing, and areas that need attention.",
   },
   {
-    title: "Surface prep",
+    title: "Surface Prep",
     description:
-      "Prep is treated as part of the finished result, especially for painting, wall repair, trim, and touch-up work.",
+      "Wall condition and preparation are considered before paint goes on the surface.",
   },
   {
-    title: "Protection for occupied spaces",
+    title: "Property-Aware Work",
     description:
-      "Floors, fixtures, and active living or rental areas are treated with care during the work.",
+      "Occupied homes, vacant units, and turnover schedules each need a different working approach.",
   },
   {
-    title: "Finish details",
+    title: "Finish-Focused Details",
     description:
-      "Attention goes to edges, repairs, trim, and punch-list items that affect how complete the space feels.",
+      "Repairs, edges, touch-ups, and coverage matter because they determine how complete the space feels.",
   },
   {
-    title: "Cleanup and final walkthrough",
+    title: "Clean Handoff",
     description:
-      "The work area is reviewed and left orderly so the space is ready for what comes next.",
+      "The goal is a space that is ready for the owner, resident, manager, or next stage of the project.",
   },
 ];
 
-export const serviceFit: ServiceFitItem[] = [
-  {
-    label: "Homeowners",
-    description: "Painting, repairs, trim, cabinet refreshes, and practical interior updates.",
-  },
-  {
-    label: "Landlords",
-    description: "Turnover-ready repainting, repair support, and rental refresh work.",
-  },
-  {
-    label: "Property managers",
-    description: "Scope-driven punch-list support for managed homes and apartment units.",
-  },
-  {
-    label: "Rental owners",
-    description: "Move-in, move-out, and maintenance-minded improvements for rental properties.",
-  },
-  {
-    label: "Move-in and move-out projects",
-    description: "Focused updates that help spaces feel cleaner, finished, and ready to use.",
-  },
-];
+export const serviceScenarios = {
+  eyebrow: "Common Project Scenarios",
+  title: "The Same Core Services Can Solve Very Different Property Needs.",
+  intro:
+    "A turnover unit, a lived-in home, and a wall-repair project may need different timing and preparation, but the work still comes back to clear scope, practical repairs, and clean finishes.",
+  items: [
+    {
+      title: "Between Residents",
+      description:
+        "Repainting, wall repair, touch-ups, and make-ready work for apartments and rental units between occupants.",
+    },
+    {
+      title: "Lived-In Home Refresh",
+      description:
+        "Interior or exterior painting for homeowners who want rooms and surfaces refreshed without unnecessary remodeling work.",
+    },
+    {
+      title: "Repair Before Paint",
+      description:
+        "Drywall and texture repair when damaged areas need attention before a room or wall is repainted.",
+    },
+  ],
+} as const;
+
+export const servicesFaq = {
+  eyebrow: "Service Questions",
+  title: "Questions Before You Request an Estimate.",
+  intro:
+    "These answers cover the basics. Project-specific timing, access, repair needs, and scope are reviewed after an estimate request is submitted.",
+  items: [
+    {
+      question: "Do You Handle Full Apartment Turnovers?",
+      answer:
+        "We focus on the painting and wall-related portion of turnover work, including repainting, drywall repair, texture repair, prep, and touch-ups. We do not advertise plumbing, flooring, cabinet installation, roofing, or full remodeling services.",
+    },
+    {
+      question: "Can Drywall Repair Be Included With Painting?",
+      answer:
+        "Yes. When wall damage needs to be repaired before paint, drywall and texture work can be included as part of the same practical scope when appropriate for the project.",
+    },
+    {
+      question: "Do You Work in Occupied Homes?",
+      answer:
+        "Yes. Interior painting and repair requests can be reviewed for occupied homes as well as vacant properties. Access, furniture, timing, and protection needs are discussed as part of the project scope.",
+    },
+    {
+      question: "Do You Take Exterior Painting Projects?",
+      answer:
+        "Yes. Residential and select commercial exterior painting projects are considered based on location, property type, access, and scope.",
+    },
+    {
+      question: "What Areas Do You Serve?",
+      answer:
+        "Diamond Ace is focused on Central Florida, including Poinciana, Kissimmee, Orlando, Davenport, Haines City, Lake Nona, Winter Park, and nearby communities. Select projects elsewhere in Florida may be considered based on scope.",
+    },
+    {
+      question: "How Do I Get an Estimate?",
+      answer:
+        "Use the estimate request form to send the property location, services needed, timing, and project details. We review the request and follow up by email with the next step.",
+    },
+  ],
+} as const;
 
 export const servicesCta = {
-  title: "Tell us what needs attention.",
+  eyebrow: "Start a Project",
+  title: "Tell Us What Needs Painting, Repair, or Turnover Work.",
   description:
-    "Share the project type, location, timing, and any repair or turnover details. Diamond Ace Construction LLC will review the scope and help define the next step.",
-  ctaLabel: "Get a Free Estimate",
+    "Share the property type, location, timing, and scope. We will review the request and follow up by email with the next step toward an estimate.",
+  ctaLabel: "Request an Estimate",
   href: "/contact",
 } as const;

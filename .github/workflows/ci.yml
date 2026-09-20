@@ -10,7 +10,7 @@ on:
 
 jobs:
   quality:
-    name: Lint, Build, and E2E
+    name: Lint, Typecheck, Build, and E2E
     runs-on: ubuntu-latest
     timeout-minutes: 25
     env:
@@ -32,6 +32,9 @@ jobs:
 
       - name: Run lint
         run: npm run lint
+
+      - name: Run typecheck
+        run: npm run typecheck
 
       - name: Build application
         run: npm run build

@@ -1,58 +1,62 @@
-"use client";
-
-import { motion, useReducedMotion } from "framer-motion";
+import Image from "next/image";
+import { Check } from "lucide-react";
 import { includedWork } from "../../data/services";
 import { Container } from "../ui/Container";
-import { SectionHeading } from "../ui/SectionHeading";
+import { Reveal } from "../ui/Reveal";
 
 export function IncludedWorkSection() {
-  const shouldReduceMotion = useReducedMotion();
-
   return (
     <section
       aria-labelledby="included-work-title"
-      className="border-b border-[var(--color-border)] bg-[rgba(23,21,17,0.52)] py-16 sm:py-20 lg:py-24"
+      className="overflow-hidden bg-[var(--color-dark)] py-16 text-white sm:py-20 lg:py-28"
     >
       <Container>
-        <div className="grid gap-10 lg:grid-cols-[1fr_0.85fr] lg:items-end">
-          <SectionHeading
-            eyebrow="What's included"
-            title="A cleaner process around scope, prep, protection, finish details, and cleanup."
-          >
-            <p>
-              The exact work depends on the project, but the service approach stays focused on
-              clarity and orderly execution.
-            </p>
-          </SectionHeading>
-
-          <div className="hidden h-px bg-[var(--color-border)] lg:block" />
-        </div>
-
-        <div className="mt-12 grid border-t border-[var(--color-border)] lg:grid-cols-5">
-          {includedWork.map((item, index) => (
-            <motion.article
-              key={item.title}
-              initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{
-                duration: shouldReduceMotion ? 0 : 0.35,
-                delay: shouldReduceMotion ? 0 : index * 0.035,
-                ease: "easeOut",
-              }}
-              className="border-b border-[var(--color-border)] py-6 lg:border-r lg:px-5 lg:last:border-r-0"
-            >
-              <p className="text-sm font-semibold text-[var(--color-brass)]">
-                {String(index + 1).padStart(2, "0")}
+        <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:gap-16">
+          <Reveal>
+            <div className="max-w-2xl">
+              <p className="text-xs font-bold uppercase tracking-[0.12em] text-[var(--color-accent)]">
+                What We Focus On
               </p>
-              <h2 className="mt-4 text-lg font-semibold leading-tight text-[var(--color-warm-white)]">
-                {item.title}
+              <h2
+                id="included-work-title"
+                className="text-balance mt-4 text-3xl font-semibold leading-[1.05] tracking-[-0.035em] text-white sm:text-4xl lg:text-5xl"
+              >
+                Good Paint Work Starts Before the Finish Coat.
               </h2>
-              <p className="mt-3 text-sm leading-7 text-[var(--color-warm-muted)]">
-                {item.description}
+              <p className="mt-6 text-base leading-7 text-[var(--color-on-dark-muted)] sm:text-lg sm:leading-8">
+                The exact scope changes from project to project, but preparation, repair details, protection, and a clean handoff are what keep the work feeling organized and complete.
               </p>
-            </motion.article>
-          ))}
+
+              <ul className="mt-8 divide-y divide-white/10 border-y border-white/10">
+                {includedWork.map((item) => (
+                  <li key={item.title} className="grid gap-2 py-4 sm:grid-cols-[1fr_1.5fr] sm:gap-8">
+                    <p className="flex items-center gap-3 text-sm font-semibold text-white">
+                      <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-white/10 text-[var(--color-accent)] ring-1 ring-white/10">
+                        <Check aria-hidden="true" size={14} strokeWidth={2.4} />
+                      </span>
+                      {item.title}
+                    </p>
+                    <p className="text-sm leading-6 text-[var(--color-on-dark-muted)]">
+                      {item.description}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.08}>
+            <div className="relative min-h-[30rem] overflow-hidden rounded-2xl bg-[var(--color-dark-soft)] ring-1 ring-white/10 sm:min-h-[38rem] lg:min-h-[44rem]">
+              <Image
+                src="/media/home/prep-feature.webp"
+                alt="Painter applying masking tape along an interior wall before painting"
+                fill
+                sizes="(min-width: 1024px) 52vw, 100vw"
+                className="object-cover object-center"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/5" />
+            </div>
+          </Reveal>
         </div>
       </Container>
     </section>

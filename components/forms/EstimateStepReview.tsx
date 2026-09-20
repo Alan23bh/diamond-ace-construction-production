@@ -2,12 +2,13 @@
 
 import { useFormContext } from "react-hook-form";
 import type { EstimateRequestInput } from "../../lib/validation";
+import { legendClass } from "./formStyles";
 
 function SummaryRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="grid gap-1 border-b border-[var(--color-border)] py-3 last:border-b-0 sm:grid-cols-[12rem_1fr]">
-      <dt className="text-sm font-semibold text-[var(--color-warm-white)]">{label}</dt>
-      <dd className="text-sm leading-6 text-[var(--color-warm-muted)]">{value || "Not provided"}</dd>
+    <div className="grid gap-1 border-b border-black/10 py-4 last:border-b-0 sm:grid-cols-[11rem_1fr] sm:gap-6">
+      <dt className="text-sm font-semibold text-[var(--color-ink)]">{label}</dt>
+      <dd className="text-sm leading-6 text-[var(--color-ink-soft)]">{value || "Not Provided"}</dd>
     </div>
   );
 }
@@ -18,25 +19,25 @@ export function EstimateStepReview() {
 
   return (
     <section aria-labelledby="estimate-review-title">
-      <h2 id="estimate-review-title" className="text-xl font-semibold text-[var(--color-warm-white)]">
-        Review your request
+      <h2 id="estimate-review-title" className={legendClass}>
+        Review Your Request
       </h2>
-      <p className="mt-2 text-sm leading-6 text-[var(--color-warm-muted)]">
-        Check the details before sending. You can go back to update anything.
+      <p className="mt-2 text-sm leading-6 text-[var(--color-ink-muted)]">
+        Check the details before sending. Use Back if you want to update anything.
       </p>
 
-      <dl className="mt-6 border-y border-[var(--color-border)]">
-        <SummaryRow label="Project type" value={values.projectType} />
-        <SummaryRow label="City / service area" value={values.propertyCity} />
-        <SummaryRow label="Property type" value={values.propertyType} />
+      <dl className="mt-7 overflow-hidden rounded-xl border border-black/10 bg-[var(--color-page)] px-5 sm:px-6">
+        <SummaryRow label="Project Type" value={values.projectType} />
+        <SummaryRow label="City / Service Area" value={values.propertyCity} />
+        <SummaryRow label="Property Type" value={values.propertyType} />
         <SummaryRow label="Services" value={values.services.join(", ")} />
-        <SummaryRow label="Size or rooms" value={values.projectSize} />
+        <SummaryRow label="Size or Rooms" value={values.projectSize} />
         <SummaryRow label="Timeline" value={values.timeline} />
         <SummaryRow label="Notes" value={values.notes || ""} />
         <SummaryRow label="Name" value={values.name} />
         <SummaryRow label="Email" value={values.email} />
         <SummaryRow label="Phone" value={values.phone || ""} />
-        <SummaryRow label="Preferred contact" value={values.preferredContactMethod} />
+        <SummaryRow label="Preferred Contact" value={values.preferredContactMethod} />
       </dl>
     </section>
   );

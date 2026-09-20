@@ -7,19 +7,44 @@ describe("Services", () => {
     await browser.url("/services");
   });
 
-  it("shows the services heading", async () => {
-    const heading = await $("h1, h2");
+  it("shows the services heading as the page h1", async () => {
+    const heading = await $("h1");
 
     await expect(heading).toBeDisplayed();
-    assert.match(await heading.getText(), /Painting, turnover, repair/);
+    assert.match(await heading.getText(), /Painting, Turnovers, Drywall & Exterior Work/);
   });
 
-  it("shows all four service-group headings", async () => {
-    const bodyText = await browser.execute(() => document.body.textContent || "");
+  it("shows all four approved service sections", async () => {
+    const serviceIds = [
+      "apartment-turnovers",
+      "interior-painting",
+      "drywall-texture",
+      "exterior-painting",
+    ];
 
-    assert.match(bodyText, /Residential Painting/);
+    for (const id of serviceIds) {
+      const section = await $(`[data-testid="service-section-${id}"]`);
+      await section.scrollIntoView({ block: "center" });
+      await expect(section).toExist();
+    }
+
+    const bodyText = await browser.execute(() => document.body.textContent || "");
     assert.match(bodyText, /Apartment Turnovers/);
-    assert.match(bodyText, /Interior Repairs & Trim/);
-    assert.match(bodyText, /Light Remodeling & Property Support/);
+    assert.match(bodyText, /Interior Painting/);
+    assert.match(bodyText, /Drywall Repair & Texture/);
+    assert.match(bodyText, /Exterior Painting/);
+    assert.doesNotMatch(bodyText, /Light Remodeling/);
+    assert.doesNotMatch(bodyText, /Roofing/);
+  });
+
+  it("includes service questions and estimate conversion paths", async () => {
+    const faq = await $('[data-testid="services-faq"]');
+    await faq.scrollIntoView({ block: "center" });
+    await expect(faq).toBeDisplayed();
+
+    const estimateLinkCount = await browser.execute(
+      () => document.querySelectorAll('a[href="/contact"]').length,
+    );
+    assert.ok(estimateLinkCount >= 5);
   });
 });

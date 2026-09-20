@@ -1,95 +1,132 @@
 "use client";
 
-import { useFormContext } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import type { EstimateRequestInput } from "../../lib/validation";
 import { contactMethods } from "../../lib/validation";
+import { FormSelect } from "./FormSelect";
+import {
+  errorClass,
+  fieldControlClass,
+  fieldHelpClass,
+  fieldLabelClass,
+  legendClass,
+} from "./formStyles";
 
 export function EstimateStepContact() {
   const {
+    control,
     register,
     formState: { errors },
   } = useFormContext<EstimateRequestInput>();
 
   return (
-    <fieldset className="grid gap-5">
-      <legend className="text-xl font-semibold text-[var(--color-warm-white)]">
-        Contact information
-      </legend>
+    <fieldset>
+      <legend className={legendClass}>Contact Information</legend>
+      <p className={fieldHelpClass}>
+        Email is required for the estimate workflow. A phone number is optional unless you choose
+        phone follow-up.
+      </p>
 
-      <div>
-        <label className="text-sm font-semibold text-[var(--color-warm-white)]" htmlFor="name">
-          Name
-        </label>
-        <input
-          id="name"
-          type="text"
-          data-testid="estimate-name"
-          autoComplete="name"
-          {...register("name")}
-          className="mt-2 min-h-12 w-full border border-[var(--color-border)] bg-[var(--color-charcoal-950)] px-3 text-sm text-[var(--color-warm-white)]"
-        />
-        {errors.name ? (
-          <p className="mt-2 text-sm text-[var(--color-brass)]">{errors.name.message}</p>
-        ) : null}
-      </div>
+      <div className="mt-7 grid gap-6">
+        <div className="grid gap-6 sm:grid-cols-2">
+          <div>
+            <label className={fieldLabelClass} htmlFor="name">
+              Name
+            </label>
+            <input
+              id="name"
+              type="text"
+              data-testid="estimate-name"
+              autoComplete="name"
+              aria-invalid={Boolean(errors.name)}
+              aria-describedby={errors.name ? "name-error" : undefined}
+              {...register("name")}
+              className={fieldControlClass}
+            />
+            {errors.name ? (
+              <p id="name-error" className={errorClass} role="alert">
+                {errors.name.message}
+              </p>
+            ) : null}
+          </div>
 
-      <div>
-        <label className="text-sm font-semibold text-[var(--color-warm-white)]" htmlFor="email">
-          Email
-        </label>
-        <input
-          id="email"
-          type="email"
-          data-testid="estimate-email"
-          autoComplete="email"
-          {...register("email")}
-          className="mt-2 min-h-12 w-full border border-[var(--color-border)] bg-[var(--color-charcoal-950)] px-3 text-sm text-[var(--color-warm-white)]"
-        />
-        {errors.email ? (
-          <p className="mt-2 text-sm text-[var(--color-brass)]">{errors.email.message}</p>
-        ) : null}
-      </div>
+          <div>
+            <label className={fieldLabelClass} htmlFor="email">
+              Email
+            </label>
+            <input
+              id="email"
+              type="email"
+              data-testid="estimate-email"
+              autoComplete="email"
+              aria-invalid={Boolean(errors.email)}
+              aria-describedby={errors.email ? "email-error" : undefined}
+              {...register("email")}
+              className={fieldControlClass}
+            />
+            {errors.email ? (
+              <p id="email-error" className={errorClass} role="alert">
+                {errors.email.message}
+              </p>
+            ) : null}
+          </div>
+        </div>
 
-      <div>
-        <label className="text-sm font-semibold text-[var(--color-warm-white)]" htmlFor="phone">
-          Phone optional
-        </label>
-        <input
-          id="phone"
-          type="tel"
-          data-testid="estimate-phone"
-          autoComplete="tel"
-          {...register("phone")}
-          className="mt-2 min-h-12 w-full border border-[var(--color-border)] bg-[var(--color-charcoal-950)] px-3 text-sm text-[var(--color-warm-white)]"
-        />
-        {errors.phone ? (
-          <p className="mt-2 text-sm text-[var(--color-brass)]">{errors.phone.message}</p>
-        ) : null}
-      </div>
+        <div className="grid gap-6 sm:grid-cols-2">
+          <div>
+            <label className={fieldLabelClass} htmlFor="phone">
+              Phone <span className="font-normal text-[var(--color-ink-muted)]">(Optional)</span>
+            </label>
+            <input
+              id="phone"
+              type="tel"
+              data-testid="estimate-phone"
+              autoComplete="tel"
+              aria-invalid={Boolean(errors.phone)}
+              aria-describedby={errors.phone ? "phone-help phone-error" : "phone-help"}
+              {...register("phone")}
+              className={fieldControlClass}
+            />
+            <p id="phone-help" className={fieldHelpClass}>
+              Your number is used only for project follow-up when provided.
+            </p>
+            {errors.phone ? (
+              <p id="phone-error" className={errorClass} role="alert">
+                {errors.phone.message}
+              </p>
+            ) : null}
+          </div>
 
-      <div>
-        <label
-          className="text-sm font-semibold text-[var(--color-warm-white)]"
-          htmlFor="preferredContactMethod"
-        >
-          Preferred contact method
-        </label>
-        <select
-          id="preferredContactMethod"
-          {...register("preferredContactMethod")}
-          className="mt-2 min-h-12 w-full border border-[var(--color-border)] bg-[var(--color-charcoal-950)] px-3 text-sm text-[var(--color-warm-white)]"
-        >
-          {contactMethods.map((method) => (
-            <option key={method} value={method}>
-              {method}
-            </option>
-          ))}
-        </select>
-        {errors.preferredContactMethod ? (
-          <p className="mt-2 text-sm text-[var(--color-brass)]">
-            {errors.preferredContactMethod.message}
-          </p>
-        ) : null}
+          <div>
+            <label className={fieldLabelClass} htmlFor="preferredContactMethod">
+              Preferred Contact Method
+            </label>
+            <Controller
+              control={control}
+              name="preferredContactMethod"
+              render={({ field }) => (
+                <FormSelect
+                  id="preferredContactMethod"
+                  label="Preferred Contact Method"
+                  testId="estimate-contact-method"
+                  value={field.value}
+                  options={contactMethods}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  invalid={Boolean(errors.preferredContactMethod)}
+                  describedBy={
+                    errors.preferredContactMethod ? "preferredContactMethod-error" : undefined
+                  }
+                />
+              )}
+            />
+            {errors.preferredContactMethod ? (
+              <p id="preferredContactMethod-error" className={errorClass} role="alert">
+                {errors.preferredContactMethod.message}
+              </p>
+            ) : null}
+          </div>
+        </div>
       </div>
     </fieldset>
   );

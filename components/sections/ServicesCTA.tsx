@@ -1,31 +1,45 @@
+import { ArrowRight, Mail } from "lucide-react";
+import { business } from "../../data/business";
 import { servicesCta } from "../../data/services";
 import { Button } from "../ui/Button";
 import { Container } from "../ui/Container";
+import { Reveal } from "../ui/Reveal";
 
 export function ServicesCTA() {
   return (
-    <section className="py-16 sm:py-20 lg:py-24">
+    <section className="bg-[var(--color-page)] py-16 sm:py-20 lg:py-24">
       <Container>
-        <div className="relative overflow-hidden border border-[var(--color-border)] bg-[var(--color-charcoal-900)] px-5 py-10 sm:px-8 lg:px-10">
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 opacity-50 [background-image:linear-gradient(rgba(246,241,232,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(246,241,232,0.045)_1px,transparent_1px)] [background-size:40px_40px]"
-          />
-          <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
-            <div>
-              <p className="text-xs font-semibold uppercase text-[var(--color-brass)]">
-                Estimate request
-              </p>
-              <h2 className="mt-4 max-w-2xl text-3xl font-semibold leading-tight text-[var(--color-warm-white)] sm:text-4xl">
-                {servicesCta.title}
-              </h2>
-              <p className="mt-4 max-w-2xl text-base leading-7 text-[var(--color-warm-muted)]">
-                {servicesCta.description}
-              </p>
+        <Reveal>
+          <div className="overflow-hidden rounded-2xl bg-[var(--color-accent)] px-6 py-10 shadow-card sm:px-8 lg:px-12 lg:py-12">
+            <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-12">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.12em] text-black/60">
+                  {servicesCta.eyebrow}
+                </p>
+                <h2 className="text-balance mt-4 max-w-3xl text-3xl font-semibold leading-[1.05] tracking-[-0.035em] text-[var(--color-ink)] sm:text-4xl lg:text-5xl">
+                  {servicesCta.title}
+                </h2>
+                <p className="mt-4 max-w-2xl text-base leading-7 text-black/70">
+                  {servicesCta.description}
+                </p>
+              </div>
+
+              <div className="flex flex-col gap-3 lg:min-w-56">
+                <Button href={servicesCta.href} variant="inverse" className="gap-2">
+                  {servicesCta.ctaLabel}
+                  <ArrowRight aria-hidden="true" size={17} />
+                </Button>
+                <a
+                  href={business.contact.emailHref}
+                  className="inline-flex items-center justify-center gap-2 text-sm font-semibold text-black/75 underline decoration-black/30 underline-offset-4 hover:text-black focus:outline-none focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-black/30"
+                >
+                  <Mail aria-hidden="true" size={15} />
+                  {business.contact.emailDisplay}
+                </a>
+              </div>
             </div>
-            <Button href={servicesCta.href}>{servicesCta.ctaLabel}</Button>
           </div>
-        </div>
+        </Reveal>
       </Container>
     </section>
   );
