@@ -1,50 +1,79 @@
 # Diamond Ace Construction
 
-Production marketing website for Diamond Ace Construction LLC, a family-owned Central Florida painting company focused on apartment turnovers, interior painting, drywall and texture repair, and exterior painting.
+**A responsive business website built for Diamond Ace Construction LLC, a Family-Owned painting company serving Central Florida.**
+
+[View Source Code](https://github.com/Alan23bh/diamond-ace-construction-production)
+
+## Overview
+
+Diamond Ace Construction is a client-focused marketing website designed to help property managers, landlords, homeowners, and businesses explore painting and repair services and request project estimates.
+
+The site combines clear service information, a consistent visual identity, mobile-friendly navigation, and a guided estimate-request experience. The project emphasizes maintainable React components, typed business data, accessible interactions, search-engine fundamentals, and automated testing.
+
+## Key Features
+
+- **Responsive Interface:** Mobile-first layouts, sticky navigation, and a mobile estimate action make the site usable across screen sizes.
+- **Service-Focused Content:** Dedicated information for apartment turnovers, interior painting, drywall and texture repair, and exterior painting.
+- **Multi-Step Estimate Form:** Four steps—Project, Scope, Contact, and Review—guide visitors through providing useful request details.
+- **Form Validation:** React Hook Form and Zod validate inputs, including conditional contact requirements and step-by-step progression.
+- **Lead Capture:** Netlify Forms integration supports production submissions, with a honeypot field for spam mitigation. Local development simulates submissions to avoid sending test leads.
+- **SEO Foundation:** Page-specific metadata, Open Graph information, canonical URLs, XML sitemap, robots directives, and structured data for the business and its services.
+- **Accessibility Considerations:** Semantic structure, skip navigation, labeled controls, keyboard-friendly interactions, and reduced-motion support.
+- **Automated Quality Checks:** Linting, TypeScript checks, production builds, and WebdriverIO end-to-end tests run through GitHub Actions.
 
 ## Tech Stack
 
-- Next.js App Router
-- React 19
-- TypeScript
-- Tailwind CSS
-- Framer Motion
-- React Hook Form
-- Zod
-- Netlify Forms lead capture
-- WebdriverIO E2E tests
-- GitHub Actions CI
+| Area               | Technologies                      |
+| ------------------ | --------------------------------- |
+| Framework          | Next.js 15 (App Router), React 19 |
+| Language           | TypeScript                        |
+| Styling            | Tailwind CSS                      |
+| Animation & Icons  | Framer Motion, Lucide React       |
+| Forms & Validation | React Hook Form, Zod              |
+| Lead Submission    | Netlify Forms                     |
+| Testing            | WebdriverIO, Mocha                |
+| CI                 | GitHub Actions                    |
 
-## Current Status
+## Pages
 
-Phase 1 of the V2 redesign establishes the new visual and engineering foundation:
+| Page                       | Purpose                                                                                       |
+| -------------------------- | --------------------------------------------------------------------------------------------- |
+| Home (`/`)                 | Introduces the company, highlights its services, and directs visitors to request an estimate. |
+| Services (`/services`)     | Explains the core service categories, preparation practices, and common project scenarios.    |
+| Our Approach (`/approach`) | Presents the company's working process and expectations.                                      |
+| Contact (`/contact`)       | Hosts the guided, multi-step estimate-request form.                                           |
+| Privacy (`/privacy`)       | Explains how information submitted through the website is handled.                            |
 
-- Light/off-white design system with charcoal typography and warm brass accent
-- White sticky navigation and simplified Diamond Ace wordmark
-- Full-width homepage media hero with video support and a static fallback
-- Pexels service-context photography stored locally as optimized WebP files
-- Two-column homepage service-card grid
-- Centralized four-service catalog used by marketing content and estimate validation
-- Accurate Central Florida positioning and Monday-Friday business hours
-- `/portfolio` redirected to `/services`
-- Canonical URL no longer points at `example.com`
-- `sitemap.xml` and `robots.txt` generated through the App Router
-- WebdriverIO types included in TypeScript configuration
-- Explicit `npm run typecheck` script and CI typecheck step
-- Estimate validation requires a phone number when Phone is selected as the preferred contact method
+## Getting Started
 
-The Services, Our Approach, and Contact pages intentionally retain their V1 dark presentation until their dedicated rebuild phases.
+**Requirements:** Node.js and npm. The CI workflow uses Node.js 24.
 
-## Development
+1. Clone the repository:
 
-```bash
-npm install
-npm run dev
-```
+   ```bash
+   git clone https://github.com/Alan23bh/diamond-ace-construction-production.git
+   cd diamond-ace-construction-production
+   ```
 
-Open `http://localhost:3000`.
+2. Install dependencies:
 
-## Quality Checks
+   ```bash
+   npm ci
+   ```
+
+3. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+4. Open [http://localhost:3000](http://localhost:3000).
+
+If you need to explicitly configure the canonical site URL, use `.env.example` as a reference for `NEXT_PUBLIC_SITE_URL`.
+
+## Testing & Quality Checks
+
+Run the standard checks:
 
 ```bash
 npm run lint
@@ -52,80 +81,46 @@ npm run typecheck
 npm run build
 ```
 
-## End-to-End Testing
-
-The WebdriverIO suite currently assumes the local Next.js server is already running.
-
-Terminal 1:
-
-```bash
-npm run dev
-```
-
-Terminal 2:
+For end-to-end tests, keep the development server running in one terminal, then run:
 
 ```bash
 npm run test:e2e
 ```
 
-The default E2E target is `http://127.0.0.1:3000`. Override it with `WDIO_BASE_URL` when needed.
+WebdriverIO targets `http://127.0.0.1:3000` by default. You can override this with `WDIO_BASE_URL`. See [Testing Documentation](docs/testing.md) for details.
 
-See [docs/testing.md](docs/testing.md) for form email-safety behavior.
+The GitHub Actions workflow runs linting, type checking, a production build, and browser-based end-to-end tests on pushes and pull requests to `main`.
 
-## Media
+## Project Structure
 
-Diamond Ace does not currently have project photography. V2 uses licensed stock media only as service-context imagery and does not describe those images as Diamond Ace projects.
+```text
+app/          # App Router pages, layouts, and metadata routes
+components/   # Reusable UI, page sections, layouts, and forms
+data/         # Centralized business and service content
+lib/          # Validation, lead submission, and SEO utilities
+public/       # Static assets and Netlify form registration
+tests/        # End-to-end browser tests
+docs/         # Implementation notes and technical decisions
+types/        # Shared TypeScript types
+.github/      # Continuous integration workflow
+```
 
-See [docs/media-sources.md](docs/media-sources.md) for source and attribution records.
+## Implementation Notes
 
-The homepage hero currently streams a Pexels video during the design-review phase. Before production launch, the selected clip should be downloaded, compressed, stored locally, and referenced from `components/media/HeroMedia.tsx`.
+**Estimate submissions:** The form validates input in the browser and submits URL-encoded data through Netlify Forms in production. During local development, a successful submission is intentionally simulated after validation; it does not send a real lead. Netlify form detection and email notifications must be configured and verified in the deployed environment. See [Lead Delivery Documentation](docs/phase-6b-lead-delivery.md).
 
-## Estimate Lead Delivery
+**Business information:** Services and business details are stored centrally and reused across content, form validation, and SEO data to reduce inconsistencies.
 
-Production estimate requests are prepared for Netlify Forms. The multi-step React form is validated with React Hook Form + Zod, then submitted to a statically registered Netlify form with a honeypot field. Verified submissions can be stored in Netlify and forwarded to the Diamond Ace inbox through Netlify form notifications.
+**Media:** Licensed stock media is used to illustrate service categories and is not presented as photography of completed Diamond Ace Construction projects. See [Media Sources](docs/media-sources.md).
 
-Local development simulates the final submission so tests never generate real business leads. See `docs/phase-6b-lead-delivery.md`.
+**Development approach:** This project used an AI-assisted development workflow with iterative review, refinement, and testing. See [Development Workflow](docs/ai-development-workflow.md).
 
-## Production Roadmap
+## Author
 
-1. Phase 1 — foundation, header, homepage hero, service cards, data cleanup
-2. Phase 2 — complete homepage sections and responsive polish
-3. Phase 3 — Services page redesign
-4. Phase 4 — Our Approach page redesign
-5. Phase 5 — Contact form and estimate UX redesign
-6. Phase 6A — production hardening: E2E stability, lint cleanup, modern selects, accessibility/UI polish
-7. Phase 6B — real $0 lead delivery, email notifications, and spam protection
-8. Phase 6C — optional private lead/data workflow and Google Sheet tracking
-9. Phase 6D — Privacy page, SEO, metadata, structured data, and search/analytics setup
-10. Phase 6E — production deployment and live verification
-11. Phase 6F — final dependency/security, video, performance, accessibility, and cross-browser audit
-12. Phase 7 — README/case study, resume material, metrics, and interview preparation
+**Alan Hernandez** — Frontend Developer
 
-## Phase 3
+[GitHub Profile](https://github.com/Alan23bh)
 
-- Redesigned the Services page around the four approved service groups.
-- Added static-media hero, service anchors, detailed alternating service sections, preparation standards, project scenarios, FAQ, and a final estimate CTA.
-- See `docs/phase-3-services.md`.
+## Project Context
 
-## Phase 4
-
-- Rebuilt the Our Approach page in the V2 light/charcoal/brass visual system.
-- Added a static-media hero, six-step working process, prep/protection feature, pre-work clarity section, property-context section, and final estimate CTA.
-- Carried forward the Services hero contrast fix and corrected the Services E2E TypeScript issue.
-- See `docs/phase-4-approach.md`.
-
-## Phase 5 Contact Rebuild
-
-The Contact route now uses the V2 visual system and a redesigned four-step estimate workflow. See `docs/phase-5-contact.md` for the UX, validation, accessibility, and email-delivery decisions made during this phase.
-
-## Phase 6A Production Hardening
-
-Phase 6A stabilizes the redesigned Contact experience before the real production lead workflow is connected. It adds modern accessible select controls, restores Contact E2E visibility assumptions, removes the remaining lint warning, improves mobile step/navigation behavior, adds a skip link, and visually separates Helpful Details from the footer. See `docs/phase-6a-production-hardening.md`.
-
-## Phase 6B $0 Lead Delivery
-
-Phase 6B removes the unconfigured Resend dependency and prepares production estimate requests for Netlify Forms. It adds the static Next.js form definition required by Netlify, URL-encoded production submission, honeypot spam protection, safe local simulation, and deployment instructions for inbox notifications. See `docs/phase-6b-lead-delivery.md`.
-
-## Phase 6D Privacy + SEO Foundation
-
-Phase 6D adds the production Privacy page and completes the pre-deployment SEO foundation: canonical URL resolution for Netlify, page-specific social metadata, a `HousePainter` structured-data graph with the four real services, preview-deploy noindex behavior, production robots rules, favicon metadata, and footer access to Privacy. See `docs/phase-6d-privacy-seo.md`.
+Built for Diamond Ace Construction LLC as a real-business web development project. This repository documents the website's implementation and technical approach.
