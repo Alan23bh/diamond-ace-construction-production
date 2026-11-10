@@ -58,7 +58,9 @@ jobs:
           exit 1
 
       - name: Run WebDriverIO E2E tests
-        run: npm run test:e2e
+        run: |
+          unset NODE_OPTIONS
+          npm run test:e2e
 
       - name: Upload E2E failure screenshots
         if: failure()
